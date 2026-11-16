@@ -1,0 +1,94 @@
+//verficando os cluster
+
+root@controlplane:~$ kubectl get nodes
+NAME           STATUS   ROLES           AGE   VERSION
+controlplane   Ready    control-plane   11d   v1.37.1
+node01         Ready    <none>          11d   v1.37.1
+
+//comando usado para criar um deployment 
+
+root@controlplane:~$ kubectl create deployment comunicado-web --image=nginx:alpine
+deployment.apps/comunicado-web created
+
+//comando usado para verificar o deployment
+
+root@controlplane:~$ kubectl get deployments 
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+comunicado-web   1/1     1            1           13s
+
+//comando usado para listar os pods em execucao 
+
+root@controlplane:~$ kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+comunicado-web-57c76f7bc4-q55rc   1/1     Running   0          20s
+
+//comando usado para criar replicas dos pods
+
+root@controlplane:~$ kubectl scale deployment comunicado-web --replicas=3 
+deployment.apps/comunicado-web scaled
+root@controlplane:~$ kubectl get pods 
+NAME                              READY   STATUS    RESTARTS   AGE
+comunicado-web-57c76f7bc4-q55rc   1/1     Running   0          74s
+comunicado-web-57c76f7bc4-ttdvj   1/1     Running   0          6s
+comunicado-web-57c76f7bc4-wmkxp   1/1     Running   0          6s
+
+root@controlplane:~$ kubectl get pods 
+NAME                              READY   STATUS    RESTARTS   AGE
+comunicado-web-57c76f7bc4-q55rc   1/1     Running   0          89s
+comunicado-web-57c76f7bc4-ttdvj   1/1     Running   0          21s
+comunicado-web-57c76f7bc4-wmkxp   1/1     Running   0          21s
+
+//comando usado para deletar um pod
+
+root@controlplane:~$ kubectl delete pod comunicado-web-57c76f7bc4-wmkxp
+pod "comunicado-web-57c76f7bc4-wmkxp" deleted from default namespace
+
+root@controlplane:~$ kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+comunicado-web-57c76f7bc4-p7jtf   1/1     Running   0          13s
+comunicado-web-57c76f7bc4-q55rc   1/1     Running   0          2m20s
+comunicado-web-57c76f7bc4-ttdvj   1/1     Running   0          72s
+
+//comando usado para criar um service 
+
+root@controlplane:~$ kubectl expose deployment comunicado-web --port=80 --target-port=80 --name=comunicado-service 
+service/comunicado-service exposed
+
+//comando usado para checar o services
+
+root@controlplane:~$ kubectl get services 
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+comunicado-service   ClusterIP   10.101.24.195   <none>        80/TCP    15s
+kubernetes           ClusterIP   10.96.0.1       <none>        443/TCP   11d
+
+//comando usado para criar um conteiner temporario para criar uma requisicao em HTTP ao Service
+
+root@controlplane:~$ kubectl run teste --image=curlimages/curl --rm -it --restart=Never -- curl http://comunicado-service 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy, 
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional 
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+All commands and output from this session will
