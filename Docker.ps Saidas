@@ -1,0 +1,28 @@
+Verificando Saidas 
+
+1-  
+docker --version
+Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+root@controlplane:~$ docker run -d --name comunicado -p 8090:80 nginx:alpine 
+Unable to find image 'nginx:alpine' locally
+alpine: Pulling from library/nginx
+881fc932939e: Pull complete 
+1abafee971b9: Pull complete 
+c7dfd64eeb02: Pull complete 
+e011f124249b: Pull complete 
+a746bd1dc828: Pull complete 
+b9c6ee6a30f8: Pull complete 
+69d81d552257: Pull complete 
+da90db506dd5: Pull complete 
+Digest: sha256:fed7e14be83cbd2661a75cdc5b872d936cf155d46c327084d30b8df19ae88d72
+Status: Downloaded newer image for nginx:alpine
+7ac6ad051e0759d394d979629f2bf9bc2aad68e97a38b47cdab36e11f3044732
+root@controlplane:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                                     NAMES
+7ac6ad051e07   nginx:alpine   "/docker-entrypoint.…"   25 seconds ago   Up 24 seconds   0.0.0.0:8090->80/tcp, [::]:8090->80/tcp   comunicado
+
+2- 
+root@controlplane:~$ docker exec comunicado sh -c 'echo "<h1>Comunicado interno disponivel</h1><p>Aluno: Otavio</p>" > /usr/share/nginx/html/index.html' 
+root@controlplane:~$ curl http://localhost:8090
+<h1>Comunicado interno disponivel</h1><p>Aluno: Otavio</p>
+
