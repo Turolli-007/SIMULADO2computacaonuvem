@@ -1,0 +1,60 @@
+Kubernetes Saidas
+
+1- 
+root@controlplane:~$ kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+comunicado-web-57c76f7bc4-q55rc   1/1     Running   0          20s
+
+2-
+root@controlplane:~$ kubectl scale deployment comunicado-web --replicas=3 
+deployment.apps/comunicado-web scaled
+root@controlplane:~$ kubectl get pods 
+NAME                              READY   STATUS    RESTARTS   AGE
+comunicado-web-57c76f7bc4-q55rc   1/1     Running   0          74s
+comunicado-web-57c76f7bc4-ttdvj   1/1     Running   0          6s
+comunicado-web-57c76f7bc4-wmkxp   1/1     Running   0          6s
+root@controlplane:~$ kubectl get pods 
+
+
+3- 
+root@controlplane:~$ kubectl delete pod comunicado-web-57c76f7bc4-wmkxp
+pod "comunicado-web-57c76f7bc4-wmkxp" deleted from default namespace
+root@controlplane:~$ kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+comunicado-web-57c76f7bc4-p7jtf   1/1     Running   0          13s
+comunicado-web-57c76f7bc4-q55rc   1/1     Running   0          2m20s
+comunicado-web-57c76f7bc4-ttdvj   1/1     Running   0          72s
+
+4-
+root@controlplane:~$ kubectl run teste --image=curlimages/curl --rm -it --restart=Never -- curl http://comunicado-service 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy, 
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional 
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+Session ended, resume using 'kubectl attach teste -c teste -n default -i -t' command
+pod "teste" deleted from default namespace
