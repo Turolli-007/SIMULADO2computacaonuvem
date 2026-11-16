@@ -1,0 +1,32 @@
+Questoes Docker.ps 
+
+Questão 1. Qual é a diferença entre IaaS e SaaS? Cite um exemplo de utilização de cada modelo. 
+
+R: A diferenca entre a IaaS e a SaaS e que a IaaS e utilizado em infraestrutura como Servidores e Maquinas virtuais ja a SaaS ela utiliza software prontos da intenet como por exemplo Gmail, Google Docs e Microsoft 365
+
+
+Questão 2. Uma empresa utiliza servidores próprios e também recursos de um provedor de nuvem pública. Qual modelo de implantação em nuvem essa empresa utiliza? 
+
+R: Nuvem híbrida
+
+Questão 3. Qual é a principal diferença entre uma máquina virtual e um contêiner? 
+
+R: Máquina Virtual possui um sistema operacional completo para cada máquina virtual ja o Conteiner compartilha o sistema operacional do host, sendo mais leve e iniciando mais rápido
+
+Questoes Kubernetes 
+
+Questão 1. Qual é a diferença entre uma imagem Docker e um contêiner em execução? 
+
+R: A imagem Docker é o modelo usado para criar contêineres, enquanto o contêiner é a execução desse modelo em um ambiente isolado
+
+Questão 2. Qual é a função de um Deployment no Kubernetes? 
+
+R:Um Deployment gerencia os Pods, garantindo a quantidade desejada de réplicas, realizando atualizações e permitindo a recuperação automática caso algum Pod falhe
+
+Questão 3. O que aconteceu quando você excluiu um Pod? Por que isso aconteceu?
+
+R: Quando exclui um Pod ele se recria novamente porem com nome diferente e isso aconteceu por que ele estava sendo gerenciado e monitorado pelo Deployment
+
+Questão 4. Qual é a finalidade de um Service no Kubernetes? 
+
+R: A finalidade de um Service no Kubernetes é permitir a comunicação e o acesso aos Pods fornecendo uma forma estável de conexão mesmo quando os Pods são recriados ou possuem novos endereços IP
